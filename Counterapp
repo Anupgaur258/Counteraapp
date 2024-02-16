@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      background-color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .heading {
+      margin-top: 50px;
+      color: violet;
+    }
+
+    .countdown {
+      font-size: 24px;
+      margin-top: 20px;
+      color: black;
+    }
+
+    .sign-in-button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: violet;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .sign-in-button:hover {
+      background-color: #7e549f; /* Darken the color slightly on hover */
+    }
+
+    .satellite-image {
+      margin-top: 50px;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="heading">Ready to Launch in</h1>
+  <div id="countdown" class="countdown"></div>
+  <button class="sign-in-button">Sign In</button>
+  <img src="satellite_image.jpg" alt="Satellite Image" class="satellite-image">
+  <script>
+    // Set the default values
+    let days = 8;
+    let hours = 2;
+    let minutes = 44;
+    let seconds = 28;
+
+    // Function to update the countdown
+    function updateCountdown() {
+      const countdownElement = document.getElementById('countdown');
+      const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
+
+      const daysLeft = Math.floor(totalSeconds / (24 * 60 * 60));
+      const hoursLeft = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+      const minutesLeft = Math.floor((totalSeconds % (60 * 60)) / 60);
+      const secondsLeft = totalSeconds % 60;
+
+      countdownElement.textContent = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+    }
+
+    // Initial call to update the countdown
+    updateCountdown();
+
+    // Update the countdown every second
+    setInterval(function() {
+      seconds--;
+      if (seconds < 0) {
+        seconds = 59;
+        minutes--;
+        if (minutes < 0) {
+          minutes = 59;
+          hours--;
+          if (hours < 0) {
+            hours = 23;
+            days--;
+            if (days < 0) {
+              // Countdown reached zero, stop updating
+              clearInterval(intervalId);
+              return;
+            }
+          }
+        }
+      }
+      updateCountdown();
+    }, 1000);
+  </script>
+</body>
+</html>
